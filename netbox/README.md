@@ -26,7 +26,7 @@ sudo apt-get install wget ca-certificates nginx supervisor git gcc python3 pytho
 sudo mkdir -p /opt/netbox/ && cd /opt/netbox/
 cd ../
 rm -rf /opt/netbox
-sudo apt-get install -y python3.6 python3-pip python3-venv python3-dev build-essential libxml2-dev libffi-dev libpq-dev libssl-dev zlib1g-dev
+sudo apt-get install -y python3.10.12 python3-pip python3-venv python3-dev build-essential libxml2-dev libffi-dev libpq-dev libssl-dev zlib1g-dev
 pip3 install --upgrade pip
 
 ```
