@@ -34,3 +34,24 @@ ln -s /opt/netbox-3.4.1/ /opt/netbox
 ls -l /opt | grep netbox
 cd /opt/netbox/netbox/netbox/
 ```
+```
+python3 ../generate_secret_key.py
+ahflhaoighiajhfoj2994hgilahglajgaf
+cp configuration_example.py configuration.py
+nano configuration.py
+```
+```
+ALLOWED_IP = ['*']
+DATABASE = {
+USER = netbox
+PASSWORD = Pruthvi@12s360
+}
+
+SECRET = "ahflhaoighiajhfoj2994hgilahglajgaf"
+```
+```
+cd ..
+/opt/netbox/upgrade.sh
+python3 manage.py migrate
+python3 manage.py createsuperuser
+```
