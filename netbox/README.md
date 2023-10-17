@@ -3,3 +3,30 @@
 ```
 sudo apt-get install postgresql postgresql-contrib -y
 ```
+```
+systemctl status postgresql
+```
+```
+sudo -u postgres psql
+CREATE DATABASE netbox;
+CREATE USER netbox WITH PASSWORD 'Pruthvi@12s360';
+GRANT ALL PRIVILEGES ON DATABASE netbox TO netbox;
+\q
+```
+```
+psql --username netbox --password --host localhost netbox
+password: Pruthvi@12s360
+\q
+```
+
+```
+sudo apt-get install wget ca-certificates nginx supervisor git gcc python3 python3-dev python3-pip python3-setuptools build-essential libxml2-dev libxslt1-dev libffi-dev graphviz libpq-dev libssl-dev zlib1g-dev unzip redis-server -y
+```
+```
+sudo mkdir -p /opt/netbox/ && cd /opt/netbox/
+cd ../
+rm -rf /opt/netbox
+sudo apt-get install -y python3.6 python3-pip python3-venv python3-dev build-essential libxml2-dev libffi-dev libpq-dev libssl-dev zlib1g-dev
+pip3 install --upgrade pip
+
+```
