@@ -28,5 +28,9 @@ cd ../
 rm -rf /opt/netbox
 sudo apt-get install -y python3.10.12 python3-pip python3-venv python3-dev build-essential libxml2-dev libffi-dev libpq-dev libssl-dev zlib1g-dev
 pip3 install --upgrade pip
-
+wget https://codeload.github.com/netbox-community/netbox/tar.gz/v3.4.1
+tar -xzf v3.4.1 -C /opt
+ln -s /opt/netbox-3.4.1/ /opt/netbox
+ls -l /opt | grep netbox
+cd /opt/netbox/netbox/netbox/
 ```
