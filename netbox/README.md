@@ -80,7 +80,7 @@ service nginx restart
 nano /opt/netbox/gunicorn.py
 ```
 ```
-edit url: http://<public-ip>:8001
+edit bind= '<public-ip>:8001'
 ```
 ```
 systemctl daemon-reload
