@@ -41,7 +41,7 @@ cp configuration_example.py configuration.py
 nano configuration.py
 ```
 ```
-ALLOWED_IP = ['*']
+ALLOWED_HOSTS = ['*']
 DATABASE = {
 USER = netbox
 PASSWORD = Pruthvi@12s360
@@ -52,6 +52,7 @@ SECRET = "ahflhaoighiajhfoj2994hgilahglajgaf"
 ```
 cd ..
 /opt/netbox/upgrade.sh
+#sudo systemctl restart netbox netbox-rq
 python3 manage.py migrate
 python3 manage.py createsuperuser
 ```
