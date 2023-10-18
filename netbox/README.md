@@ -1,37 +1,49 @@
 # Netbox Installation
 # Postgres installation
 ```
-sudo apt-get install postgresql postgresql-contrib -y
+apt -y update
+apt -y install postgresql postgresql-common
 ```
 ```
+systemctl is-enabled postgresql
 systemctl status postgresql
 ```
 ```
 sudo -u postgres psql
 CREATE DATABASE netbox;
-CREATE USER netbox WITH PASSWORD 'Pruthvi@12s360';
+CREATE USER netbox WITH PASSWORD '1996';
 GRANT ALL PRIVILEGES ON DATABASE netbox TO netbox;
+\conninfo
 \q
 ```
 ```
 psql --username netbox --password --host localhost netbox
-password: Pruthvi@12s360
+password: 1996
 \q
 ```
-
 ```
-sudo apt-get install wget ca-certificates nginx supervisor git gcc python3 python3-dev python3-pip python3-setuptools build-essential libxml2-dev libxslt1-dev libffi-dev graphviz libpq-dev libssl-dev zlib1g-dev unzip redis-server net-tools -y
+apt -y install redis-server
+systemctl is-enabled redis-server
+systemctl status redis-server
+vi /etc/redis/redis.conf
+ requirepass 1996
+systemctl restart redis-server
+redis-cli
+AUTH 1996
+Ctl+d
 ```
 ```
 sudo mkdir -p /opt/netbox/ && cd /opt/netbox/
 cd ../
 rm -rf /opt/netbox
-sudo apt-get install -y python3.10.12 python3-pip python3-venv python3.10-venv python3-dev build-essential libxml2-dev libffi-dev libpq-dev libssl-dev zlib1g-dev nano
+useradd -r -d /opt/netbox -s /usr/sbin/nologin netbox
+sudo apt -y install -y git python3 python3-pip python3-venv python3-dev build-essential libxml2-dev libxslt1-dev libffi-dev libpq-dev libssl-dev zlib1g-dev
 pip3 install --upgrade pip
 wget https://codeload.github.com/netbox-community/netbox/tar.gz/v3.4.1
 tar -xzf v3.4.1 -C /opt
 ln -s /opt/netbox-3.4.1/ /opt/netbox
 ls -l /opt | grep netbox
+chown -R netbox:netbox /opt/netbox
 cd /opt/netbox/netbox/netbox/
 ```
 ```
@@ -46,12 +58,24 @@ DATABASE = {
 USER = netbox
 PASSWORD = Pruthvi@12s360
 }
+redi_server = {
+USERNAME = ''
+PASSWORD = '1996'
+}
+redis_server_cache = {
+USERNAME = ''
+PASSWORD = '1996'
+}
 
 SECRET = "ahflhaoighiajhfoj2994hgilahglajgaf"
 ```
 ```
-cd /opt/netbox/netbox/
+cd /opt/netbox
+pip3 install -r /opt/netbox/requirements.txt
 /opt/netbox/upgrade.sh
+
+
+
 systemctl daemon-reload
 cd /opt/netbox/netbox
 source /opt/netbox/venv/bin/activate
