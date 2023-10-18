@@ -88,6 +88,7 @@ ln -s /opt/netbox/contrib/netbox-housekeeping.sh /etc/cron.daily/netbox-housekee
 source /opt/netbox/venv/bin/activate
 cd /opt/netbox/netbox
 python3 manage.py runserver 0.0.0.0:8000 --insecure
+http://192.168.0.8:8000/
 exit
 ```
 
@@ -123,4 +124,8 @@ ln -s /etc/nginx/sites-available/netbox /etc/nginx/sites-enabled/netbox
 nginx -t
 systemctl restart nginx
 systemctl status nginx
+```
+
+```
+https://192.168.0.8
 ```
