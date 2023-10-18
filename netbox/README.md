@@ -39,9 +39,9 @@ rm -rf /opt/netbox
 useradd -r -d /opt/netbox -s /usr/sbin/nologin netbox
 sudo apt -y install -y git python3 python3-pip python3-venv python3-dev build-essential libxml2-dev libxslt1-dev libffi-dev libpq-dev libssl-dev zlib1g-dev
 pip3 install --upgrade pip
-wget https://codeload.github.com/netbox-community/netbox/tar.gz/v3.4.1
-tar -xzf v3.4.1 -C /opt
-ln -s /opt/netbox-3.4.1/ /opt/netbox
+wget https://codeload.github.com/netbox-community/netbox/tar.gz/v3.6.3
+tar -xzf v3.6.3 -C /opt
+ln -s /opt/netbox-3.6.3/ /opt/netbox
 ls -l /opt | grep netbox
 chown -R netbox:netbox /opt/netbox
 cd /opt/netbox/netbox/netbox/
@@ -69,46 +69,58 @@ PASSWORD = '1996'
 
 SECRET = "ahflhaoighiajhfoj2994hgilahglajgaf"
 ```
+
 ```
 cd /opt/netbox
 pip3 install -r /opt/netbox/requirements.txt
 /opt/netbox/upgrade.sh
 
-
-
-systemctl daemon-reload
-cd /opt/netbox/netbox
 source /opt/netbox/venv/bin/activate
+
 cd /opt/netbox/netbox
 python3 manage.py createsuperuser
-```
-```
 exit
-sudo su
-cd /opt/netbox
-cp contrib/gunicorn.py /opt/netbox/gunicorn.py
-cp contrib/*service /etc/systemd/system/
+
+ln -s /opt/netbox/contrib/netbox-housekeeping.sh /etc/cron.daily/netbox-housekeeping
+```
+
+```
+source /opt/netbox/venv/bin/activate
+cd /opt/netbox/netbox
+python3 manage.py runserver 0.0.0.0:8000 --insecure
+exit
+```
+
+```
+cp /opt/netbox/contrib/gunicorn.py /opt/netbox/gunicorn.py
+cp -v /opt/netbox/contrib/*.service /etc/systemd/system/
 systemctl daemon-reload
-systemctl enable netbox netbox-rq
+```
+```
 systemctl start netbox netbox-rq
-systemctl status netbox netbox-rq
-```
-```
-cp /opt/netbox/contrib/nginx.conf /etc/nginx/sites-available/netbox
-cd /etc/nginx/sites-enabled/
-rm default
-ln -s /etc/nginx/sites-available/netbox
-service nginx restart
-```
-```
-nano /opt/netbox/gunicorn.py
-```
-```
-edit bind= '<public-ip>:8001'
-```
-```
-systemctl daemon-reload
 systemctl enable netbox netbox-rq
-systemctl restart netbox netbox-rq
-systemctl status netbox netbox-rq
+```
+
+```
+systemctl status netbox-rq
+systemctl status netbox
+```
+
+```
+openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+-keyout /etc/ssl/private/netbox.key \
+-out /etc/ssl/certs/netbox.crt
+```
+
+```
+apt -y install nginx
+cp /opt/netbox/contrib/nginx.conf /etc/nginx/sites-available/netbox
+rm /etc/nginx/sites-enabled/default
+ln -s /etc/nginx/sites-available/netbox /etc/nginx/sites-enabled/netbox
+```
+
+```
+nginx -t
+systemctl restart nginx
+systemctl status nginx
 ```
